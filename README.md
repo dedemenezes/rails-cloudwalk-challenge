@@ -35,6 +35,16 @@ Chargeback is, basically, the dispute of one transaction. When a customer compla
 However, cancellations usually don't have a negative influence on the merchant business. A business usually has a cancellation policy, maybe a period when the customer is allowed to return, sometimes the merchant would give the customer a store credit. There are diiferent policies to satisfy it's customers and avoid chargebacks.
  
 
+## Q2 - Get your hands dirty
+
+### Using this csv with hypothetical transactional data, imagine that you are trying to understand if there is any kind of suspicious behavior.
+
+#### Analyze the data provided and present your conclusions (consider that all transactions are made using a mobile device).
+My first idea was to check for 
+#### In addition to the spreadsheet data, what other data would you look at to try to find patterns of possible frauds?
+
+
+
 
 
 
