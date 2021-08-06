@@ -1,2 +1,17 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+
+
+
+<div class="container">
+  <h3>usuarios com mais de um device</h3>
+  <p></p>
+  <h3>First Day by user</h3>
+  <p><%= @first_day.count %></p>
+  <%= pie_chart  @first_day.group(:user_id).count %>
+  <h3>First Day Chargebacks</h3>
+  <p><%= @first_day_chargebacks.count %></p>
+  <p><%= ( 100 * @first_day_chargebacks.count ) / @first_day.count %>%</p>
+  <%= pie_chart  @first_day_chargebacks.group(:merchant_id).count %>
+
+  <%= pie_chart  @transactions.group(:card_number).count.select{|t,cbk| t if cbk > 1 } %>
+</div>
+
