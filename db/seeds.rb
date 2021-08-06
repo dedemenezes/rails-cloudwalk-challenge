@@ -22,8 +22,8 @@ CSV.foreach(filepath, csv_options) do |row|
     merchant_id: row['merchant_id'],
     user_id: row['user_id'],
     card_number: row['card_number'],
-    transaction_date: row['transaction_date'] * 100,
-    transaction_amount: row['transaction_amount'],
+    transaction_date: row['transaction_date'],
+    transaction_amount: row['transaction_amount'].to_i * 100,
     device_id: row['device_id'],
     has_cbk:row['has_cbk'] 
     )
