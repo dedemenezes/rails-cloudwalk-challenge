@@ -4,14 +4,18 @@
 <div class="container">
   <h3>usuarios com mais de um device</h3>
   <p></p>
-  <h3>First Day by user</h3>
-  <p><%= @first_day.count %></p>
-  <%= pie_chart  @first_day.group(:user_id).count %>
-  <h3>First Day Chargebacks</h3>
-  <p><%= @first_day_chargebacks.count %></p>
-  <p><%= ( 100 * @first_day_chargebacks.count ) / @first_day.count %>%</p>
-  <%= pie_chart  @first_day_chargebacks.group(:merchant_id).count %>
-
-  <%= pie_chart  @transactions.group(:card_number).count.select{|t,cbk| t if cbk > 1 } %>
+  <h3>First Week transaction by user</h3>
+  <p><%= pie_chart @week_transactions.group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
+  <h3>First Week transaction by user chargebacks</h3>
+  <p><%= pie_chart @week_transactions.where(has_cbk:true).group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
+  <h3>user 11750</h3>
+  <% Transaction.where(user_id: 11750).order(:transaction_date).each do |t| %>
+    <% if t.has_cbk == false %>
+      <p><strong>merchant:<%= t.merchant_id %> | <%= t.transaction_date %>  - $<span><%= t.transaction_amount %></span> <%= t.card_number %></strong></p>
+    <% else %>
+      <p>merchant:<%= t.merchant_id %> | <%= t.transaction_date %>  - $<span><%= t.transaction_amount %></span> <%= t.card_number %></p>
+      <% end %>
+  <% end %>
+  
 </div>
 
