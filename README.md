@@ -40,7 +40,7 @@ However, cancellations usually don't have a negative influence on the merchant b
 ### Using this csv with hypothetical transactional data, imagine that you are trying to understand if there is any kind of suspicious behavior.
 
 #### Analyze the data provided and present your conclusions (consider that all transactions are made using a mobile device).
-My first idea was to check for 
+If you analyze al the chargebacks present on the data we can see that almost 50% of it is coming from Visa cards.
 #### In addition to the spreadsheet data, what other data would you look at to try to find patterns of possible frauds?
 
 
