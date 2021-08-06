@@ -6,12 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-transaction_id,merchant_id,user_id,card_number,transaction_date,transaction_amount,device_id,has_cbk
-
 require 'csv'
 
 csv_options = { col_sep: ',', quote_char: '"', headers: :first_row }
-filepath    = 'beers.csv'
+filepath    = 'db/transactions.csv'
+
+Transaction.destroy_all
+
+puts "db clean zo/"
 
 CSV.foreach(filepath, csv_options) do |row|
   Transaction.create!(
@@ -24,5 +26,6 @@ CSV.foreach(filepath, csv_options) do |row|
     device_id: row['device_id'],
     has_cbk:row['has_cbk'] 
     )
-  puts "#{row['Name']}, a #{row['Appearance']} beer from #{row['Origin']}"
 end
+binding.pry
+puts Transaction.count
