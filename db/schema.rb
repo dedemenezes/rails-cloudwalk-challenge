@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_154842) do
     t.integer "merchant_id"
     t.integer "user_id"
     t.string "card_number"
-    t.date "transaction_date"
+    t.datetime "transaction_date"
     t.integer "transaction_amount"
     t.integer "device_id"
     t.boolean "has_cbk"
