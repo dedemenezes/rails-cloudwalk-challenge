@@ -1,13 +1,9 @@
 class PagesController < ApplicationController
-  before_action :has_chargeback
+  before_action :has_chargeback, :discover_transactions, :master_transactions, :visa_transactions
 
   def home
     first_week_transactions
     @transactions = Transaction.all
-    @user = Transaction.where(user_id:79054)
-    date = Date.new(2019,11,29)
-    @first_day = Transaction.where(transaction_date: date.beginning_of_day..(date.beginning_of_day + (86400)))
-    @first_day_chargebacks = Transaction.where(transaction_date: date.beginning_of_day..(date.beginning_of_day + (86400))).where(has_cbk: true)
   end
 
   def bigger_than_two_hundred
@@ -15,15 +11,15 @@ class PagesController < ApplicationController
   end
 
   def discover_transactions
-    Transaction.where('card_number like ?', '6%')
+    @discover_transactions = Transaction.where('card_number like ?', '6%')
   end
 
   def master_transactions
-    Transaction.where('card_number like ?', '5%').count
+    @master_transactions = Transaction.where('card_number like ?', '5%')
   end
 
-  def visa_transactionbs
-    Transaction.where('card_number like ? and has_cbk = true', '4%')
+  def visa_transactions
+    @visa_transactions = Transaction.where('card_number like ?', '4%')
   end
 
   def first_week_transactions

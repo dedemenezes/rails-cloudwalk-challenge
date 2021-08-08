@@ -2,8 +2,14 @@
 
 
 <div class="container">
-  <h3>usuarios com mais de um device</h3>
-  <p></p>
+  <h3>All transactions: <%= Transaction.count %></h3>
+  <h3>All transactions chargeback: <%= Transaction.where(has_cbk: true).count %></h3>
+  <h3>visa transactions chargebacks = <%= @visa_transactions.where(has_cbk:true).count %></h3>
+  <p><%= pie_chart @visa_transactions.where(has_cbk:true).group(:user_id).count %></p>
+  <h3>master transactions chargebacks = <%= @master_transactions.where(has_cbk:true).count %></h3>
+  <p><%= pie_chart @master_transactions.where(has_cbk:true).group(:user_id).count %></p>
+  <h3>visa transactions = <%= @visa_transactions.count %></h3>
+  <p><%= pie_chart @visa_transactions.group(:user_id).count %></p>
   <h3>First Week transaction by user</h3>
   <p><%= pie_chart @week_transactions.group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
   <h3>First Week transaction by user chargebacks</h3>
