@@ -15,7 +15,6 @@ class Transaction < ApplicationRecord
 
   def is_weekend
     weekend_condition = transaction_date.saturday? || transaction_date.sunday?
-    binding.pry
     if weekend_condition
       puts 1
     else
