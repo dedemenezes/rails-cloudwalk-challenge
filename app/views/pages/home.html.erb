@@ -1,16 +1,16 @@
 <div class="container">
   <h3>All transactions: <%= Transaction.count %></h3>
   <h3>All transactions chargeback: <%= Transaction.where(has_cbk: true).count %></h3>
-  <h3>visa transactions chargebacks = <%= @visa_transactions.where(has_cbk:true).count %></h3>
-  <p><%= pie_chart @visa_transactions.where(has_cbk:true).group(:user_id).count %></p>
-  <h3>master transactions chargebacks = <%= @master_transactions.where(has_cbk:true).count %></h3>
-  <p><%= pie_chart @master_transactions.where(has_cbk:true).group(:user_id).count %></p>
-  <h3>visa transactions = <%= @visa_transactions.count %></h3>
-  <p><%= pie_chart @visa_transactions.group(:user_id).count %></p>
+  <h3>visa transactions chargebacks = <%= Transaction.visas.where(has_cbk:true).count %></h3>
+  <p><%= pie_chart Transaction.visas.where(has_cbk:true).group(:user_id).count %></p>
+  <h3>master transactions chargebacks = <%= Transaction.masters.where(has_cbk:true).count %></h3>
+  <p><%= pie_chart Transaction.masters.where(has_cbk:true).group(:user_id).count %></p>
+  <h3>visa transactions = <%= Transaction.visas.count %></h3>
+  <p><%= pie_chart Transaction.visas.group(:user_id).count %></p>
   <h3>First Week transaction by user</h3>
-  <p><%= pie_chart @week_transactions.group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
+  <p><%= pie_chart Transaction.first_week_transactions.group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
   <h3>First Week transaction by user chargebacks</h3>
-  <p><%= pie_chart @week_transactions.where(has_cbk:true).group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
+  <p><%= pie_chart Transaction.first_week_transactions.where(has_cbk:true).group(:user_id).count.select{|usr, count| usr if count > 4 } %></p>
   <h3>user 11750</h3>
   <% Transaction.where(user_id: 11750).order(:transaction_date).each do |t| %>
     <% if t.has_cbk == true %>
