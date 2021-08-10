@@ -23,7 +23,7 @@ CSV.foreach(filepath, csv_options) do |row|
     merchant_id: row['merchant_id'],
     user_id: row['user_id'],
     bin: row['card_number'][0..5],
-    bin: row['card_number'][12..-1],
+    mid: row['card_number'][12..-1],
     transaction_date: row['transaction_date'],
     transaction_amount: row['transaction_amount'].to_i * 100,
     device_id: row['device_id'],
@@ -31,4 +31,4 @@ CSV.foreach(filepath, csv_options) do |row|
     )
 end
 
-puts "Generated #{Transaction.count}'s"
+puts"Generated #{Transaction.count} transaction(s)"
