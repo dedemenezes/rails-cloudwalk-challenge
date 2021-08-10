@@ -8,6 +8,10 @@ class Transaction < ApplicationRecord
   def self.visas
     Transaction.where('card_number like ?', '4%')
   end
+  
+  def master_transactions
+    @master_transactions = Transaction.where('card_number like ?', '5%')
+  end
 
   def self.merchant_than_five_cbks
     chargebacks.group(:merchant_id).count.select { |merchant, has_cbks| merchant if has_cbks > 4 }
@@ -23,10 +27,6 @@ class Transaction < ApplicationRecord
 
   def discover_transactions
     @discover_transactions = Transaction.where('card_number like ?', '6%')
-  end
-
-  def master_transactions
-    @master_transactions = Transaction.where('card_number like ?', '5%')
   end
 
   def first_week_transactions
