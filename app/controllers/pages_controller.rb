@@ -28,7 +28,7 @@ class PagesController < ApplicationController
   end
 
   def five_or_more
-    @five_or_more = @chargeback.group(:user_id).count.select{|user, cbk_count| user if cbk_count > 4 }
+    @five_or_more = @chargebacks.group(:user_id).count.select{|user, cbk_count| user if cbk_count > 4 }
   end
 
   private
