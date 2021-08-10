@@ -13,7 +13,7 @@ class Transaction < ApplicationRecord
     Transaction.where('card_number like ?', '5%')
   end
 
-  def weekday
+  def weekend
     is_weekend
     during_weekend
   end
