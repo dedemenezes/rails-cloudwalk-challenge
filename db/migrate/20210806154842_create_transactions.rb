@@ -4,7 +4,8 @@ class CreateTransactions < ActiveRecord::Migration[6.1]
       t.integer :transaction_id
       t.integer :merchant_id
       t.integer :user_id
-      t.string :card_number
+      t.integer :bin
+      t.integer :mid
       t.datetime :transaction_date
       t.integer :transaction_amount
       t.integer :device_id
