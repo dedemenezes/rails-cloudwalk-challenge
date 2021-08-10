@@ -8,4 +8,12 @@ class Transaction < ApplicationRecord
   def self.visas
     Transaction.where('card_number like ?', '4%')
   end
+
+  def self.merchant_than_five_cbks
+    chargebacks.group(:merchant_id).count.select { |merchant, has_cbks| merchant if has_cbks > 4 }
+  end
+
+  def self.user_than_five_cbks
+    chargebacks.group(:user_id).count.select { |user, has_cbks| user if has_cbks > 4 }
+  end
 end
