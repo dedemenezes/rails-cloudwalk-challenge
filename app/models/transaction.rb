@@ -13,11 +13,10 @@ class Transaction < ApplicationRecord
     Transaction.where('card_number like ?', '5%')
   end
 
-  private
-
-  def self.is_weekend(datetime)
-    # Weekday from 0 to 6(Sunday to Saturday)
-    if datetime.saturday? || datetime.sunday?
+  def is_weekend
+    weekend_condition = transaction_date.saturday? || transaction_date.sunday?
+    binding.pry
+    if weekend_condition
       puts 1
     else
       puts 0 
