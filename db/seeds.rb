@@ -28,5 +28,6 @@ CSV.foreach(filepath, csv_options) do |row|
     has_cbk:row['has_cbk'] 
     )
 end
+
 binding.pry
 puts Transaction.count
