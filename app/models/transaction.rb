@@ -13,24 +13,14 @@ class Transaction < ApplicationRecord
     Transaction.where('card_number like ?', '5%')
   end
 
-  def self.merchant_than_five_cbks
-    chargebacks.group(:merchant_id).count.select { |merchant, has_cbks| merchant if has_cbks > 4 }
-  end
+  private
 
-  def self.user_than_five_cbks
-    chargebacks.group(:user_id).count.select { |user, has_cbks| user if has_cbks > 4 }
-  end
-
-  def self.bigger_than_two_hundred
-    @two_plus = Transaction.where('transaction_amount > ?', 20000)
-  end
-
-  def self.discover_transactions
-    @discover_transactions = Transaction.where('card_number like ?', '6%')
-  end
-
-  def self.first_week_transactions
-    date = Date.new(2019,11,29)
-    @week_transactions = Transaction.where(transaction_date: date.beginning_of_day..(date.beginning_of_day + (86400 * 7)))
+  def self.is_weekend(datetime)
+    # Weekday from 0 to 6(Sunday to Saturday)
+    if datetime.saturday? || datetime.sunday?
+      puts 1
+    else
+      puts 0 
+    end
   end
 end
