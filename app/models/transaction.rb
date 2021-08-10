@@ -1,5 +1,5 @@
 class Transaction < ApplicationRecord
-  validates :transaction_id, :merchant_id, :user_id, :card_number, :transaction_date, :transaction_amount, presence: true
+  validates :transaction_id, :merchant_id, :user_id, :transaction_date, :transaction_amount, presence: true
 
   def self.chargebacks
     where(has_cbk: true)
