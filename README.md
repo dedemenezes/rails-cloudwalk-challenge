@@ -32,7 +32,7 @@ A sub-acquirer would be like an intermediary between the merchant and the acquir
 
 Chargeback is, basically, the dispute of one transaction. When a customer complains about a transaction with the issuing bank everyone in the chain can be sure that there was a fraud somewhere in the whole system. It could be a mistake on the merchant side by charging a customer twice for the same purchase, it can also be customer complain about a purchase he didn't made. If a chargeback is confirmed, it's usually charged by the acquirer and by the card providers and can lead to some negative influence on the merchatn business because of the confirmation of a fragile payment system.
 
-However, cancellations usually don't have a negative influence on the merchant business. A business usually has a cancellation policy, maybe a period when the customer is allowed to return, sometimes the merchant would give the customer a store credit. There are diiferent policies to satisfy it's customers and avoid chargebacks.
+However, cancellations usually don't have a negative influence on the merchant business. A business usually has a cancellation policy, maybe a time period when the customer is allowed to return, the merchant can offer the customer a store credit as well. There are diiferent policies to satisfy it's customers and avoid chargebacks.
  
 
 ## Q2 - Get your hands dirty
@@ -40,8 +40,39 @@ However, cancellations usually don't have a negative influence on the merchant b
 ### Using this csv with hypothetical transactional data, imagine that you are trying to understand if there is any kind of suspicious behavior.
 
 #### Analyze the data provided and present your conclusions (consider that all transactions are made using a mobile device).
-If you analyze al the chargebacks present on the data we can see that almost 50% of it is coming from Visa cards.
+Looking at all chargebacks present on the data we can see that almost 50% of it is coming from Visa cards.
+
+Analyzing the data provided you can find different patterns of fraud. Each one with it's own weakness point
 #### In addition to the spreadsheet data, what other data would you look at to try to find patterns of possible frauds?
+
+
+
+## Q3 - Solve the problem
+
+### An Anti-fraud works by receiving information about a transaction and inferring whether it is a fraudulent transaction or not before authorizing it. We work mostly with Ruby and Python, but you can use any programming language that you want.
+
+### Please use the data provided on challenge 2 to test your solution. Consider that transactions with the flag has_cbk = true are transactions with fraud chargebacks.
+
+### Your Anti-fraud must have at least: 1 endpoint that receives transaction data and returns a recommendation to “approve/deny” the transaction.
+
+Transaction data need to be transformed in order to have a solid bahavioral analysis system.
+1. Transaction date will be separated in two columns.
+  1.1. DURING_WEEKEND (0 if transaction during a weekday, 1 if transaction during a weekend)
+  1.2. DURING_NIGHT (0 if transaction between 6am and 0pm, 1 if transaction between 0pm and 6am)
+2. Customer ID will be transformed in six new fields, paired per window. Windows will be 1, 7 and 30.
+  2.1. CUSTOMER_TX_nDAY_WINDOW (Number of transactions by the customer in the last n days)
+  2.2. AVG_AMOUNT_nDAY_WINDOW (Average spending amount in the last n days). 
+3. Merchant ID will be transform in six new fields, paired per window.
+  3.1. MERCHANT_TX_nDAY_WINDOW (Number of transactions on the terminal in the last n+d days)
+  3.2. MERCHANT_RISK_nDAY_WINDOW (Average number of frauds on the terminal in the last n+d days). 
+  3.3. d is the delay applied because fraudulent transactions are only discovered a few days after the payment was already proccessed.
+
+1. receive transaction information 
+2. Check user priors transactions
+2.1. check chargeback
+2.2. check medium price purchases
+2.3. check devices used
+
 
 
 
