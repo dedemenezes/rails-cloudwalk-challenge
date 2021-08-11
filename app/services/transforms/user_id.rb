@@ -13,7 +13,11 @@ module Transforms
     end
 
     def self.get_window_transactions(start_date, window, transactions)
+      end_date = Date.new(2019,12,01)
       range = ((start_date.beginning_of_day)..((start_date + window.day).end_of_day))
+      if (start_date + window.day).end_of_day > end_date.end_of_day
+        range = ((start_date.beginning_of_day)..(end_date.end_of_day))
+      end
       range_transactions = transactions.where(transaction_date: range)
       range_transactions.present? ? get_window_behaviour(range_transactions) : get_window_behaviour(0)
     end
