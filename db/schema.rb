@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_050344) do
+ActiveRecord::Schema.define(version: 2021_08_11_145419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_08_11_050344) do
     t.integer "user_avg_amount_1Day_window"
     t.integer "user_avg_amount_7Day_window"
     t.integer "user_avg_amount_30Day_window"
+    t.integer "merchant_nb_tx_1day_window"
   end
 
 end
