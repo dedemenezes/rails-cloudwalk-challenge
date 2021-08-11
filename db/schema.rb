@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 2021_08_11_050344) do
     t.integer "user_nb_tx_1Day_window"
     t.integer "user_nb_tx_7Day_window"
     t.integer "user_nb_tx_30Day_window"
-    t.float "user_avg_amount_1Day_window"
-    t.float "user_avg_amount_7Day_window"
-    t.float "user_avg_amount_30Day_window"
+    t.integer "user_avg_amount_1Day_window"
+    t.integer "user_avg_amount_7Day_window"
+    t.integer "user_avg_amount_30Day_window"
   end
 
 end
