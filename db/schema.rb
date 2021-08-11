@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_001657) do
+ActiveRecord::Schema.define(version: 2021_08_11_050210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 2021_08_11_001657) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "during_weekend"
     t.integer "during_night"
+    t.integer "user_nb_tx_1Day_window"
+    t.integer "user_nb_tx_7Day_window"
+    t.integer "user_nb_tx_30Day_window"
   end
 
 end
