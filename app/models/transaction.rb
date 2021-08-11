@@ -86,11 +86,12 @@ class Transaction < ApplicationRecord
           merchant_risk: (merchant_fraudulent_transactions_window_period.to_f / merchant_transactions_window_period).round(5),
           window_transactions: merchant_transactions_window_period
         }
+        merchant_risk[window_size.to_s][:merchant_risk] = 0 if merchant_transactions_window_period == 0
       else
         merchant_risk[window_size.to_s] = {
           merchant_risk: 0.to_f,
           window_transactions: 0
-        } 
+        }
       end
     end
     merchant_risk
