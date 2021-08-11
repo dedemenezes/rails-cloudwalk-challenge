@@ -89,14 +89,16 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
   3.3. Merchant risk will be 3.2 / 3.1
 
   delay_period:
+  merchant_nb_tx_delay
   MERCHANT_NB_TX_DELAY (Number of transactions on the terminal in the last d days)
   MERCHANT_NB_FRAUD_DELAY (Number of fraudulents transaction on the terminal in the last d days)
   window_period:
   MERCHANT_NB_TX_DELAY_WINDOW (Number of transactions on the terminal in the last n+d days)
   MERCHANT_NB_FRAUD_DELAY_WINDOW (Number of frauds on the terminal in the last n+d days)
 
-  MERCHANT_NB_TX_WINDOW=MERCHANT_NB_TX_DELAY_WINDOW-ERCHANT_NB_TX_DELAY
   MERCHANT_NB_FRAUD_WINDOW=MERCHANT_NB_FRAUD_DELAY_WINDOW-MERCHANT_NB_FRAUD_DELAY
+  
+  MERCHANT_NB_TX_WINDOW=MERCHANT_NB_TX_DELAY_WINDOW-MERCHANT_NB_TX_DELAY
   MERCHANT_RISK_WINDOW=MERCHANT_NB_FRAUD_WINDOW/MERCHANT_NB_TX_WINDOW
 
   Can also return the number of transaction for each window size
