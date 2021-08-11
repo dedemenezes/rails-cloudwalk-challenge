@@ -57,17 +57,18 @@ class Transaction < ApplicationRecord
   end
 
   def self.store_transformed_data
-    all.save_to_csv
+    save_to_csv
   end
 
   private
 
-  def save_to_csv(all_transactions)
-    csv_options = { col_sep: ',', force_quotes: true, quote_char: '"' }
-    filepath    = 'transformed_data.csv'
+  def self.save_to_csv
+    headers = ['transaction_id', 'merchant_id', 'user_id', 'bin', 'mid', 'transaction_date', 'transaction_amount', 'device_id', 'has_cbk', 'during_weekend', 'during_night', 'user_nb_tx_1Day_window', 'user_nb_tx_7Day_window', 'user_nb_tx_30Day_window', 'user_avg_amount_1Day_window', 'user_avg_amount_7Day_window', 'user_avg_amount_30Day_window', 'merchant_nb_tx_1day_window', 'merchant_nb_tx_7day_window', 'merchant_nb_tx_30day_window', 'merchant_risk_1day_window', 'merchant_risk_7day_window', 'merchant_risk_30day_window']
+    csv_options = { col_sep: ',', force_quotes: true, quote_char: '"', write_headers: true, headers: headers}
+    filepath    = 'db/transformed_data.csv'
 
     CSV.open(filepath, 'wb', csv_options) do |csv|
-      all_transactions.each do |transaction|
+      Transaction.all.each do |transaction|
         # removed maybe can go back
         # transaction.created_at, transaction.updated_at,
         csv << [transaction.transaction_id, transaction.merchant_id, transaction.user_id, transaction.bin, transaction.mid, transaction.transaction_date, transaction.transaction_amount, transaction.device_id, transaction.has_cbk, transaction.during_weekend, transaction.during_night, transaction.user_nb_tx_1Day_window, transaction.user_nb_tx_7Day_window, transaction.user_nb_tx_30Day_window, transaction.user_avg_amount_1Day_window, transaction.user_avg_amount_7Day_window, transaction.user_avg_amount_30Day_window, transaction.merchant_nb_tx_1day_window, transaction.merchant_nb_tx_7day_window, transaction.merchant_nb_tx_30day_window, transaction.merchant_risk_1day_window, transaction.merchant_risk_7day_window, transaction.merchant_risk_30day_window]
