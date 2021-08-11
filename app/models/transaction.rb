@@ -54,9 +54,6 @@ class Transaction < ApplicationRecord
     end
   end
 
-
-  
-
   private
 
   def set_merchant_risk_windows(merchant_info_risk)
