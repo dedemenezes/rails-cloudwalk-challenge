@@ -25,7 +25,6 @@ class Transaction < ApplicationRecord
     customer_transactions = Transaction.where(user_id: id).order(:transaction_date)
     user_behaviours = Transforms::UserId.spending_behaviour(id, customer_transactions)
     user_behaviours.each do |window_days ,user_behaviour|
-      binding.pry
       define_user_behaviour(user_behaviour, customer_transactions, window_days.to_i)
     end
   end
@@ -34,15 +33,6 @@ class Transaction < ApplicationRecord
     daily_window(user_behaviour, customer_transactions) if days == 1
     weekly_window(user_behaviour, customer_transactions) if days == 7
     monthly_window(user_behaviour, customer_transactions) if days == 30
-  end
-
-
-
-  # Can be useful to call directly from user_id
-  def self.users_behaviours
-    get_users_ids.each do |user_id|
-      user_spending_behaviour(user_id)
-    end
   end
 
   def get_users_ids(all_transactions)
