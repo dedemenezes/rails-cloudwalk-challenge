@@ -3,49 +3,32 @@ require 'csv'
 class Transaction < ApplicationRecord
   validates :transaction_id, :merchant_id, :user_id, :transaction_date, :transaction_amount, presence: true
 
-  def self.chargebacks
-    where(has_cbk: true)
-  end
-
-  def self.visas
-    Transaction.where('card_number like ?', '4%')
-  end
-  
-  def self.masters
-    Transaction.where('card_number like ?', '5%')
-  end
-
   def transform_datetime
     is_weekend
     shop_time
   end
 
   def transform_user_id
-    # Get all users ids
-    id = user_id
-    # Do behaviour
-    customer_transactions = Transaction.where(user_id: id).order(:transaction_date)
-    user_behaviours = Transforms::UserId.spending_behaviour(id, customer_transactions)
-    user_behaviours.each do |window_days ,user_behaviour|
-      define_user_behaviour(user_behaviour, customer_transactions, window_days.to_i)
+    define_behaviour_windows
+  end
+  
+  def define_behaviour_windows
+    customer_transactions = Transaction.where(user_id: self.user_id).order(:transaction_date)
+    user_behaviours = Transforms::UserId.spending_behaviour(self.user_id, customer_transactions)
+    customer_transactions.each do |ct|
+      set_transaction_window_behaviour(user_behaviours)
     end
   end
 
-  def define_user_behaviour(user_behaviour, customer_transactions, days)
-    daily_window(user_behaviour, customer_transactions) if days == 1
-    weekly_window(user_behaviour, customer_transactions) if days == 7
-    monthly_window(user_behaviour, customer_transactions) if days == 30
-  end
-
-  def get_users_ids(all_transactions)
-    users_ids = []
-    all_transactions.each do |t|
-      unless users_ids.include? t.user_id
-        users_ids << t.user_id
-      end
-    end
-    users_ids
-  end
+  # def get_users_ids(all_transactions)
+  #   users_ids = []
+  #   all_transactions.each do |t|
+  #     unless users_ids.include? t.user_id
+  #       users_ids << t.user_id
+  #     end
+  #   end
+  #   users_ids
+  # end
 
   def transform_merchant_id
     id = merchant_id
@@ -69,8 +52,6 @@ class Transaction < ApplicationRecord
 
     CSV.open(filepath, 'wb', csv_options) do |csv|
       Transaction.all.each do |transaction|
-        # removed maybe can go back
-        # transaction.created_at, transaction.updated_at,
         csv << [transaction.transaction_id, transaction.merchant_id, transaction.user_id, transaction.bin, transaction.mid, transaction.transaction_date, transaction.transaction_amount, transaction.device_id, transaction.has_cbk, transaction.during_weekend, transaction.during_night, transaction.user_nb_tx_1Day_window, transaction.user_nb_tx_7Day_window, transaction.user_nb_tx_30Day_window, transaction.user_avg_amount_1Day_window, transaction.user_avg_amount_7Day_window, transaction.user_avg_amount_30Day_window, transaction.merchant_nb_tx_1day_window, transaction.merchant_nb_tx_7day_window, transaction.merchant_nb_tx_30day_window, transaction.merchant_risk_1day_window, transaction.merchant_risk_7day_window, transaction.merchant_risk_30day_window]
       end
     end
@@ -86,34 +67,14 @@ class Transaction < ApplicationRecord
     save!
   end
 
-  def daily_window(user_behaviour, customer_transactions)
-    customer_transactions.each do |t|
-      next unless t.user_nb_tx_1Day_window.nil?
-      t.user_nb_tx_1Day_window = user_behaviour[:nbr_transactions]
-      t.user_avg_amount_1Day_window = user_behaviour[:avg_amount]
-      t.save!
-      t
-    end
-  end
-
-  def weekly_window(user_behaviour, customer_transactions)
-    customer_transactions.each do |t|
-      next unless t.user_nb_tx_7Day_window.nil?
-      t.user_nb_tx_7Day_window = user_behaviour[:nbr_transactions]
-      t.user_avg_amount_7Day_window = user_behaviour[:avg_amount]
-      t.save!
-      t
-    end
-  end
-
-  def monthly_window(user_behaviour, customer_transactions)
-    customer_transactions.each do |t|
-      next unless t.user_nb_tx_30Day_window.nil?
-      t.user_nb_tx_30Day_window = user_behaviour[:nbr_transactions]
-      t.user_avg_amount_30Day_window = user_behaviour[:avg_amount]
-      t.save!
-      t
-    end
+  def set_transaction_window_behaviour(user_behaviours)
+    self.user_nb_tx_1Day_window = user_behaviours["1"][:nbr_transactions]
+    self.user_nb_tx_7Day_window = user_behaviours["7"][:nbr_transactions]
+    self.user_nb_tx_30Day_window = user_behaviours["30"][:nbr_transactions]
+    self.user_avg_amount_1Day_window = user_behaviours["1"][:avg_amount]
+    self.user_avg_amount_7Day_window = user_behaviours["7"][:avg_amount]
+    self.user_avg_amount_30Day_window = user_behaviours["30"][:avg_amount]
+    save!
   end
 
   def shop_time
