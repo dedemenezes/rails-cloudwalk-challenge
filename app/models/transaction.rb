@@ -73,7 +73,7 @@ class Transaction < ApplicationRecord
         merchant_transactions_window_period = merchant_transactions_delay_window_period.count - merchant_transactions_delay_period.count
         merchant_fraudulent_transactions_window_period = merchant_fraudulent_transactions_delay_window_period.count - merchant_fraudulent_transactions_delay_period.count
         merchant_risk[window_size.to_s] = {
-          merchant_risk: (merchant_fraudulent_transactions_window_period.to_f / merchant_transactions_window_period).round(4),
+          merchant_risk: (merchant_fraudulent_transactions_window_period.to_f / merchant_transactions_window_period).round(5),
           window_transactions: merchant_transactions_window_period
         }
       else
