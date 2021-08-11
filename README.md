@@ -61,6 +61,7 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
   1.2. DURING_NIGHT (0 if transaction between 6am and 0pm, 1 if transaction between 0pm and 6am)
 2. Customer ID will be transformed in six new fields, paired per window. Windows will be 1, 7 and 30.
   ** Filter by 1, 7 and 30 days window
+  range = ((date.beginning_of_day)..((date + 6.day).end_of_day))
   ** Count transaction on each window
   ** Sum all transaction on each window
   ** AVG.amount for each window
