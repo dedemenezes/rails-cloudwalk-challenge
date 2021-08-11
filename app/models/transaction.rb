@@ -91,7 +91,6 @@ class Transaction < ApplicationRecord
       next unless t.user_nb_tx_1Day_window.nil?
       t.user_nb_tx_1Day_window = user_behaviour[:nbr_transactions]
       t.user_avg_amount_1Day_window = user_behaviour[:avg_amount]
-      binding.pry
       t.save!
       t
     end
@@ -102,7 +101,6 @@ class Transaction < ApplicationRecord
       next unless t.user_nb_tx_7Day_window.nil?
       t.user_nb_tx_7Day_window = user_behaviour[:nbr_transactions]
       t.user_avg_amount_7Day_window = user_behaviour[:avg_amount]
-      binding.pry
       t.save!
       t
     end
@@ -113,7 +111,6 @@ class Transaction < ApplicationRecord
       next unless t.user_nb_tx_30Day_window.nil?
       t.user_nb_tx_30Day_window = user_behaviour[:nbr_transactions]
       t.user_avg_amount_30Day_window = user_behaviour[:avg_amount]
-      binding.pry
       t.save!
       t
     end

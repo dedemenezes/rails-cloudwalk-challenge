@@ -2,8 +2,11 @@ class Api::V1::TransactionsController < Api::V1::BaseController
 
   def check
     @transaction = Transaction.new(transaction_params)
+    binding.pry
     @transaction.transform_datetime
+    binding.pry
     @transaction.transform_merchant_id
+    binding.pry
     @transaction.transform_user_id
     binding.pry
     limit_valid = TransactionValidators::TooLateTooBeTrue.above_limit(@transaction)
