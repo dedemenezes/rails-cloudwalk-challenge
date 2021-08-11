@@ -2,13 +2,13 @@ class Api::V1::TransactionsController < Api::V1::BaseController
 
   def check
     @transaction = Transaction.new(transaction_params)
-    limit_valid = TransactionValidators::TooLateTooBeTrue.above_limit(@transaction)
+    @transaction.transform_datetime
+    @transaction.transform_merchant_id
+    @transaction.transform_user_id
     binding.pry
-    if @transaction.save
-      render json: { 
-        "transaction_id" : @transaction.transaction_id,
-        "recommendation" : "approve"
-      }, status: :created
+    limit_valid = TransactionValidators::TooLateTooBeTrue.above_limit(@transaction)
+    if 
+      render json: { "transaction_id": @transaction.transaction_id, "recommendation": "approve" }, status: :created
     else
       render_error
     end

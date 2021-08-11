@@ -88,25 +88,34 @@ class Transaction < ApplicationRecord
 
   def daily_window(user_behaviour, customer_transactions)
     customer_transactions.each do |t|
+      next unless t.user_nb_tx_1Day_window.nil?
       t.user_nb_tx_1Day_window = user_behaviour[:nbr_transactions]
       t.user_avg_amount_1Day_window = user_behaviour[:avg_amount]
+      binding.pry
       t.save!
+      t
     end
   end
 
   def weekly_window(user_behaviour, customer_transactions)
     customer_transactions.each do |t|
+      next unless t.user_nb_tx_7Day_window.nil?
       t.user_nb_tx_7Day_window = user_behaviour[:nbr_transactions]
       t.user_avg_amount_7Day_window = user_behaviour[:avg_amount]
+      binding.pry
       t.save!
+      t
     end
   end
 
   def monthly_window(user_behaviour, customer_transactions)
     customer_transactions.each do |t|
+      next unless t.user_nb_tx_30Day_window.nil?
       t.user_nb_tx_30Day_window = user_behaviour[:nbr_transactions]
       t.user_avg_amount_30Day_window = user_behaviour[:avg_amount]
+      binding.pry
       t.save!
+      t
     end
   end
 
