@@ -14,11 +14,11 @@ whole_seed_time = Time.now
 
 puts "cleaning db"
 Transaction.destroy_all
-
 puts "db clean zo/"
 
 puts "generating transactions"
 start_time = Time.now
+puts start_time
 CSV.foreach(filepath, csv_options) do |row|
   
   Transaction.create!(
@@ -38,21 +38,30 @@ puts"Generated #{Transaction.count} transaction(s)\nTime elapsed: #{Time.now - s
 
 puts "Transforming datetime"
 start_time = Time.now
-Transaction.all.each { |transaction| transaction.transform_datetime }
+Transaction.all.each do |transaction|
+  transaction.transform_datetime
+  transaction.save!
+end
 
 puts "#{Transaction.all.order(:transaction_date).first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
 
 puts "Transforming user id"
 start_time = Time.now
-Transaction.all.each { |transaction| transaction.transform_user_id }
+Transaction.all.each do |transaction|
+  transaction.transform_user_id
+  transaction.save!
+end
 
 puts "#{Transaction.all.order(:transaction_date).first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
 
 puts "Transforming merchant id. Setting merchant risk..."
 start_time = Time.now
-Transaction.all.each { |transaction| transaction.transform_merchant_id }
+Transaction.all.each do |transaction|
+  transaction.transform_merchant_id
+  transaction.save!
+end
 
 puts "#{Transaction.all.order(:transaction_date).first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
 puts "----------"
-puts "Whole seed took #{Time.now - whole_seed_time} seconds"
+puts "Whole seed took #{Time.now - whole_seed_time} seconds\nStored #{Transaction.count} transactions"
 puts "zo/"
