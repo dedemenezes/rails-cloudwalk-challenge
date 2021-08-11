@@ -45,6 +45,16 @@ class Transaction < ApplicationRecord
     users_ids
   end
 
+  def transform_merchant_id
+    id = merchant_id
+    merchant_txs = Transaction.where(merchant_id: id).order(:transaction_date)
+    merchant_txs.each do |tx|
+      merchant_risk = tx.get_merchant_risk
+      set_merchant_risk_windows(merchant_risk)
+    end
+  end
+
+
   def get_merchant_risk(delay_period=6, window_size_days=[1,7,30])
     start_date = Date.new(2019,11,01)
     end_date = Date.new(2019,12,01)
@@ -83,7 +93,7 @@ class Transaction < ApplicationRecord
         } 
       end
     end
-    set_merchant_risk_windows(merchant_risk)
+    merchant_risk
   end
 
   private
