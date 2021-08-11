@@ -60,6 +60,13 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
   1.1. DURING_WEEKEND (0 if transaction during a weekday, 1 if transaction during a weekend)
   1.2. DURING_NIGHT (0 if transaction between 6am and 0pm, 1 if transaction between 0pm and 6am)
 2. Customer ID will be transformed in six new fields, paired per window. Windows will be 1, 7 and 30.
+  ** Filter by 1, 7 and 30 days window
+  ** Count transaction on each window
+  ** Sum all transaction on each window
+  ** AVG.amount for each window
+  
+  number of transactions that occur within a time window 
+  average amount spent in these transactions
   2.1. CUSTOMER_TX_nDAY_WINDOW (Number of transactions by the customer in the last n days)
   2.2. AVG_AMOUNT_nDAY_WINDOW (Average spending amount in the last n days). 
 3. Merchant ID will be transform in six new fields, paired per window.
