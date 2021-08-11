@@ -13,13 +13,9 @@ class Transaction < ApplicationRecord
     Transaction.where('card_number like ?', '5%')
   end
 
-  def self.transform_datetime
-    start = Time.now
-    all.each do |t|
-      t.is_weekend
-      t.shop_time
-    end
-    puts Time.now - start
+  def transform_datetime
+    is_weekend
+    shop_time
   end
 
   private
