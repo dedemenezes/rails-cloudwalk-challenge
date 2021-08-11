@@ -32,3 +32,9 @@ CSV.foreach(filepath, csv_options) do |row|
 end
 
 puts"Generated #{Transaction.count} transaction(s)"
+
+puts "Transforming datetime into Weekends and Weeknight"
+
+Transaction.all.each { |transaction| Transaction.transform_datetime }
+
+puts Transaction.first.inspect

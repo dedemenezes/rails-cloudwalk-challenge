@@ -1,16 +1,16 @@
 module Transforms
   class UserId
-    def self.spending_behaviour(customer_id, window_size_days=[1,7,30])
+    def self.spending_behaviour(customer_id, customer_transactions, window_size_days=[1,7,30])
       start_date = Date.new(2019,11,01)
       # find user transactions and order by transaction date
-      customer_transactions = Transaction.where(user_id: customer_id).order(:transaction_date)
+      
       # loop over windows and set number of transactions by customer and avg amount spent on each window
       window_user_behaviours = {}
       window_size_days.each do |window_days|
         # Create user behavuour for each window days
-        user_behaviour["#{window_days}"] = get_window_transactions(start_date, window_days, customer_transactions)
+        window_user_behaviours["#{window_days}"] = get_window_transactions(start_date, window_days, customer_transactions)
       end
-      binding.pry
+      window_user_behaviours
     end
   
     def self.get_window_transactions(start_date, window, transactions)

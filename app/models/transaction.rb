@@ -22,11 +22,11 @@ class Transaction < ApplicationRecord
     # Get all users ids
     id = user_id
     # Do behaviour
-    binding.pry
-    seraa = Transforms::UserId.spending_behaviour(id)
-    binding.pry
-    user_behaviours.each do |user_behaviour|
-      define_user_behaviour(user_behaviour, customer_transactions, window_days)
+    customer_transactions = Transaction.where(user_id: id).order(:transaction_date)
+    user_behaviours = Transforms::UserId.spending_behaviour(id, customer_transactions)
+    user_behaviours.each do |window_days ,user_behaviour|
+      binding.pry
+      define_user_behaviour(user_behaviour, customer_transactions, window_days.to_i)
     end
   end
 
