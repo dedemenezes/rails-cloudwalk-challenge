@@ -41,7 +41,7 @@ module Transforms
             window_transactions: merchant_transactions_window_period
           }
           if merchant_transactions_window_period == 0
-            merchant_risk[window_size.to_s][:merchant_risk] = 0 
+            merchant_risk[window_size.to_s][:merchant_risk] = 0
           end
         else
           merchant_risk[window_size.to_s] = {
