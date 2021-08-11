@@ -21,8 +21,7 @@ class Transaction < ApplicationRecord
   private
 
   def is_weekend
-    weekend_condition = transaction_date.saturday? || transaction_date.sunday?
-    if weekend_condition
+    if transaction_date.on_weekend?
       self.during_weekend = 1
     else
       self.during_weekend = 0 

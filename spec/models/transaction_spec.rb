@@ -42,14 +42,13 @@ RSpec.describe Transaction, type: :model do
   end
 
   context 'data transformations' do
-    
     it 'should be 0 for weekdays' do
       subject.transaction_date = '2019-11-28T23:16:32.812632'
-      expect(subject.weekday).to eq(0)
+      expect(subject.weekend).to eq(0)
     end
     
     it 'should be 1 for weekends' do
-      expect(subject.weekday).to eq(1)
+      expect(subject.weekend).to eq(1)
     end
 
   end
