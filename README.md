@@ -101,6 +101,7 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
   Can also return the number of transaction for each window size
 
 ### Your Anti-fraud must have at least: 1 endpoint that receives transaction data and returns a recommendation to “approve/deny” the transaction.
+* Accept post request with transaction information
 #### Antifraud Requirements
 * Reject transaction if user is trying too many transactions in a row;
 
