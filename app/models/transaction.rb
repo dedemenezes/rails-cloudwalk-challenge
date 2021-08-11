@@ -18,7 +18,22 @@ class Transaction < ApplicationRecord
     during_weekend
   end
 
+  def night_shop
+    shop_time
+    during_night
+  end
+
   private
+
+  def shop_time
+    night_time = transaction_date.hour < 7
+    if night_time
+      self.during_night = 1
+    else
+      self.during_night = 0
+    end
+    save!
+  end
 
   def is_weekend
     if transaction_date.on_weekend?
@@ -27,6 +42,5 @@ class Transaction < ApplicationRecord
       self.during_weekend = 0 
     end
     save!
-    during_weekend
   end
 end

@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe Transaction, type: :model do
   subject { 
     described_class.new(
-      transaction_id:21320398,
-      merchant_id: 29744,
-      user_id: 97051,
-      bin: 434505,
-      mid: 9116,
-      transaction_date: '2019-12-01T23:16:32.812632',
-      transaction_amount: 37456,
-      device_id: 285475,
+      transaction_id: 21321517,
+      merchant_id: 99730,
+      user_id: 16657,
+      bin: 550209,
+      mid: 4156,
+      transaction_date: '2019-12-01T01:24:01.693230000',
+      transaction_amount: 22400,
+      device_id: 965552,
       has_cbk: false 
     )
   }
