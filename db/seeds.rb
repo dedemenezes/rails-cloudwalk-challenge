@@ -15,6 +15,7 @@ puts "cleaning db"
 Transaction.destroy_all
 
 puts "db clean zo/"
+
 puts "generating transactions"
 start_time = Time.now
 CSV.foreach(filepath, csv_options) do |row|
