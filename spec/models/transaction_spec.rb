@@ -67,8 +67,12 @@ RSpec.describe Transaction, type: :model do
   end
 
   context 'customer spending behaviour' do 
-    it 'should return number of transactions for 1, 7 and 30 days' do
-      expect()
+    transactions(:test_transaction_21320398)
+ 
+    it 'should return number of transactions for 1 day'
+    it 'should return number of transactions for 7 days'
+    it 'should return number of transactions for 30 days' do
+      binding.pry
     end
     it 'should return avg amount spent for 1, 7 and 30 days'
     it 'should return 0 for periods without transactions'
