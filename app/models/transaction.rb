@@ -45,7 +45,29 @@ class Transaction < ApplicationRecord
     users_ids
   end
 
+  def transform_merchant_id
+    id = merchant_id
+    merchant_txs = Transaction.where(merchant_id: id).order(:transaction_date)
+    merchant_txs.each do |tx|
+      merchant_risk = Transforms::MerchantId.get_merchant_risk(tx.merchant_id)
+      set_merchant_risk_windows(merchant_risk)
+    end
+  end
+
+
+  
+
   private
+
+  def set_merchant_risk_windows(merchant_info_risk)
+    self.merchant_risk_1day_window = merchant_info_risk["1"][:merchant_risk]
+    self.merchant_risk_7day_window = merchant_info_risk["7"][:merchant_risk]
+    self.merchant_risk_30day_window = merchant_info_risk["30"][:merchant_risk]
+    self.merchant_nb_tx_1day_window = merchant_info_risk["1"][:window_transactions]
+    self.merchant_nb_tx_7day_window = merchant_info_risk["7"][:window_transactions]
+    self.merchant_nb_tx_30day_window = merchant_info_risk["30"][:window_transactions]
+    save!
+  end
 
   def daily_window(user_behaviour, customer_transactions)
     customer_transactions.each do |t|

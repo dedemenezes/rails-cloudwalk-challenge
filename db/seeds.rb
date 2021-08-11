@@ -10,6 +10,7 @@ require 'csv'
 
 csv_options = { col_sep: ',', quote_char: '"', headers: :first_row }
 filepath    = 'db/transactions.csv'
+whole_seed_time = Time.now
 
 puts "cleaning db"
 Transaction.destroy_all
@@ -39,10 +40,19 @@ puts "Transforming datetime"
 start_time = Time.now
 Transaction.all.each { |transaction| transaction.transform_datetime }
 
-puts "#{Transaction.first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
+puts "#{Transaction.all.order(:transaction_date).first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
 
 puts "Transforming user id"
 start_time = Time.now
 Transaction.all.each { |transaction| transaction.transform_user_id }
 
-puts "#{Transaction.first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
+puts "#{Transaction.all.order(:transaction_date).first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
+
+puts "Transforming merchant id. Setting merchant risk..."
+start_time = Time.now
+Transaction.all.each { |transaction| transaction.transform_merchant_id }
+
+puts "#{Transaction.all.order(:transaction_date).first.inspect}\nTime elapsed: #{Time.now - start_time} seconds"
+puts "----------"
+puts "Whole seed took #{Time.now - whole_seed_time} seconds"
+puts "zo/"
