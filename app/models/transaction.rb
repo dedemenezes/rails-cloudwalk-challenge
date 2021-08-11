@@ -18,22 +18,6 @@ class Transaction < ApplicationRecord
     shop_time
   end
 
-  # Can be useful to call directly from user_id
-  # def self.users_behaviours
-  #   get_users_ids.each do |user_id|
-  #     user_spending_behaviour(user_id)
-  #   end
-  # end
-  # def self.get_users_ids
-  #   users_ids = []
-  #   all.each do |t|
-  #     unless users_ids.include? t.user_id
-  #       users_ids << t.user_id
-  #     end
-  #   end
-  #   users_ids
-  # end
-
   def user_spending_behaviour(customer_id, window_size_days=[1,7,30])
     # find user transactions and order by transaction date
     customer_transactions = Transaction.where(user_id: customer_id).order(:transaction_date)
@@ -43,15 +27,14 @@ class Transaction < ApplicationRecord
       # Create user behavuour for each window days
       user_behaviour = set_window_behaviour(start_date, window_days, customer_transactions)
       # Associate behaviour from window to user transactions
-      case window_days
-      when 1
-        daily_window(user_behaviour, customer_transactions)
-      when 7
-        weekly_window(user_behaviour, customer_transactions)
-      when 30
-        monthly_window(user_behaviour, customer_transactions)
-      end
+      define_user_behaviour(user_behaviour, customer_transactions, window_days)
     end
+  end
+  
+  def define_user_behaviour(user_behaviour, customer_transactions, days)
+    daily_window(user_behaviour, customer_transactions) if days == 1
+    weekly_window(user_behaviour, customer_transactions) if days == 7
+    monthly_window(user_behaviour, customer_transactions) if days == 30
   end
 
   def set_window_behaviour(start_date, window, transactions)
@@ -69,6 +52,22 @@ class Transaction < ApplicationRecord
       }  
     end
   end
+
+  # Can be useful to call directly from user_id
+  # def self.users_behaviours
+  #   get_users_ids.each do |user_id|
+  #     user_spending_behaviour(user_id)
+  #   end
+  # end
+  # def self.get_users_ids
+  #   users_ids = []
+  #   all.each do |t|
+  #     unless users_ids.include? t.user_id
+  #       users_ids << t.user_id
+  #     end
+  #   end
+  #   users_ids
+  # end
 
   private
 
