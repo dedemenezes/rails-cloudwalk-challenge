@@ -45,6 +45,21 @@ class Transaction < ApplicationRecord
     users_ids
   end
 
+  def get_merchant_risk(delay_period=7, window_size_days=[1,7,30])
+    start_date = Date.new(2019,11,01)
+    id = merchant_id
+    # Delay period
+    range_delay = ((start_date.beginning_of_day)..(start_date + delay_period.day).end_of_day)
+    transactions_delay_period = Transaction.where(transaction_date: range_delay).order(:transaction_date)
+    fraudulent_transactions_delay_period = transactions_delay_period.where(has_cbk: true)
+    
+    window_size_days.each do |window_size|
+      # TODO
+      binding.pry
+    end
+    merchant_transactions = Transaction.where(merchant_id: id).order(:transaction_date)
+    merchant_transactions.where(has_cbk: true).order(:transaction_date)
+  end
   private
 
   def daily_window(user_behaviour, customer_transactions)
