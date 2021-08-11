@@ -70,10 +70,23 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
   average amount spent in these transactions
   2.1. user_nb_tx_nDay_window (Number of transactions by the customer in the last n days)
   2.2. user_avg_amount_nDay_window (Average spending amount in the last n days). 
-  
+
 3. Merchant ID will be transform in six new fields, paired per window.
   Here is where we should consider that each chargeback took some time to be received by the system. We need to apply a delay to the time window.  d will be the delay applied because fraudulent transactions are only discovered a few days after the payment was already proccessed.
   Basic delay time would be one week.
+
+  ##### pseudocode
+  1. for delay period
+  1.1. get number of merchant transactions 
+  1.2. get number of transactions with chargeback true
+  2. for window period
+  2.1.1. window period will be window size + delay period
+  2.1. get number of transactions
+  2.2. get number of transactions with chargeback true
+  3. Calculate Risk
+  3.1. Number of transactions during window period will be 2.1 - 1.1
+  3.2. Number offraudulent transactions during window period will be 2.2 - 1.2
+  3.3. Merchant risk will be 3.2 / 3.1
 
   delay_period:
   MERCHANT_NB_TX_DELAY (Number of transactions on the terminal in the last d days)
@@ -82,8 +95,8 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
   MERCHANT_NB_TX_DELAY_WINDOW (Number of transactions on the terminal in the last n+d days)
   MERCHANT_NB_FRAUD_DELAY_WINDOW (Number of frauds on the terminal in the last n+d days)
 
-  MERCHANT_NB_FRAUD_WINDOW=MERCHANT_NB_FRAUD_DELAY_WINDOW-MERCHANT_NB_FRAUD_DELAY
   MERCHANT_NB_TX_WINDOW=MERCHANT_NB_TX_DELAY_WINDOW-ERCHANT_NB_TX_DELAY
+  MERCHANT_NB_FRAUD_WINDOW=MERCHANT_NB_FRAUD_DELAY_WINDOW-MERCHANT_NB_FRAUD_DELAY
   MERCHANT_RISK_WINDOW=MERCHANT_NB_FRAUD_WINDOW/MERCHANT_NB_TX_WINDOW
 
   Can also return the number of transaction for each window size
