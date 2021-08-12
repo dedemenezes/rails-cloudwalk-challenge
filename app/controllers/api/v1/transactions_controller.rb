@@ -6,9 +6,8 @@ class Api::V1::TransactionsController < Api::V1::BaseController
     @transaction.transform_merchant_id
     @transaction.transform_user_id
     @transaction.save
-    binding.pry
     limit_valid = TransactionValidators::TooLateTooBeTrue.above_limit(@transaction)
-    if 
+    if limit_valid
       render json: { "transaction_id": @transaction.transaction_id, "recommendation": "approve" }, status: :created
     else
       render_error
