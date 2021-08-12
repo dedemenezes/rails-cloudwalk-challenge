@@ -46,14 +46,11 @@ Analyzing the data provided you can find different patterns of fraud. Each one w
 #### In addition to the spreadsheet data, what other data would you look at to try to find patterns of possible frauds?
 
 
-
 ## Q3 - Solve the problem
 
 ### An Anti-fraud works by receiving information about a transaction and inferring whether it is a fraudulent transaction or not before authorizing it. We work mostly with Ruby and Python, but you can use any programming language that you want.
 
 ### Please use the data provided on challenge 2 to test your solution. Consider that transactions with the flag has_cbk = true are transactions with fraud chargebacks.
-
-### Your Anti-fraud must have at least: 1 endpoint that receives transaction data and returns a recommendation to “approve/deny” the transaction.
 
 Transaction data need to be transformed in order to have a solid bahavioral analysis system.
 1. Transaction date will be separated in two columns.
@@ -103,31 +100,24 @@ Transaction data need to be transformed in order to have a solid bahavioral anal
 
   Can also return the number of transaction for each window size
 
-1. receive transaction information 
-2. Check user priors transactions
-2.1. check chargeback
-2.2. check medium price purchases
-2.3. check devices used
+### Your Anti-fraud must have at least: 1 endpoint that receives transaction data and returns a recommendation to “approve/deny” the transaction.
+* Accept post request with transaction information
+  {
+  "transaction_id" : 2342357,
+  "merchant_id" : 29744,
+  "user_id" : 97051,
+  "card_number" : "434505******9116",
+  "transaction_date" : "2019-11-31T23:16:32.812632",
+  "transaction_amount" : 373,
+  "device_id" : 285475
+  }
+#### Antifraud Requirements
+* Reject transaction if user is trying too many transactions in a row;
 
-
-
-
-
-
-
-
- When it happens on the merchant side, usually, it's becuase of fraud on the purchase transaction and in some cases the merchant can have some fees on this type of issue.
-Cancellation is something different since almost all the companies have it's own friendly cancellation policy to satisfy it's customers and it may not be charged.
-
-
-
-
-
-
-
-
-
-The information flow structure can differ from service to service but I would say that they all have some steps in commom. 
-Every time an online payment is executed on the client side, a request is sent to the merchant website with the customer sensitive payment information. The choosen payment gateway for that transaction is responsible for encrypt that data and send it to the card proccesser. The card network check the card information with the bank responsible for that account. After that, the whole chain is backtracked with the bank response.   Each merchat has one or more different payment gateways that the customer can use to make the payment.  merchant acquirer server which will analyze the data and 
-
-* Acquirer can be a company or a financial institution. They obtains the right to another company or business relatioship deal
+* Reject transactions above a certain amount in a given period;
+* Reject transaction if a user had a chargeback before (note that this information does not comes on the payload. The chargeback data is received days after the transaction was approved)
+ First need to test for some rules using the transformed data. 
+ simple rules to be used:
+ * frauds on weekends agains frauds on weekdays
+ * frauds on weeknight against frauds on daylight
+ * 
